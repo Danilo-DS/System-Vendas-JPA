@@ -1,6 +1,7 @@
 package br.com.primeira.avaliacao.management;
 
 import java.util.Collection;
+import java.util.Locale;
 import java.util.Scanner;
 
 import br.com.primeira.avaliacao.model.Client;
@@ -21,6 +22,7 @@ public class ManagementSystem {
 		clientService = new ClientService();
 		productService = new ProductService();
 		sc = new Scanner(System.in);
+		Locale.setDefault(Locale.US); // Utilizar "." para digitar números decimais.          
 	}
 	
 	public void menuMain() {
@@ -35,7 +37,7 @@ public class ManagementSystem {
 			System.out.println("\n-------------------------------\n");
 			
 			System.out.print("Choice: ");
-			this.option = sc.nextLine();
+			this.option = sc.next();
 		}
 		optionsMenuMain(this.option);
 	}
@@ -73,7 +75,7 @@ public class ManagementSystem {
 			System.out.println("\n-------------------------------\n");
 			
 			System.out.print("Choice: ");
-			this.option = sc.nextLine();
+			this.option = sc.next();
 		}
 		optionsMenuClient(option);
 	}
@@ -89,10 +91,8 @@ public class ManagementSystem {
 		}
 		else if(op == 1) {
 			
-			System.out.println("\n-----------List Clients-----------\n");
-			
-			System.out.println(mountList(clientService.findAll()));
-			optionsMenuMain("2");
+			System.out.println(mountList(clientService.findAll(), "Clients"));
+			menuOptionClient();
 		}
 		else if(op == 2) {
 			Long id = null;
@@ -105,8 +105,9 @@ public class ManagementSystem {
 				writer = sc.next();
 				id = writer.isBlank() ? null : Long.parseLong(writer);
 			}
+			
 			System.out.println(clientService.findById(id).get());
-			optionsMenuMain("1");
+			menuOptionClient();
 		}
 		else if(op == 3) {
 			client = new Client();
@@ -130,13 +131,13 @@ public class ManagementSystem {
 			}
 			
 			if(client.getCpf().equals("0")) {
-				optionsMenuMain("1");
+				menuOptionClient();
 			}
 			else {
 				clientService.save(client);
 				
 				System.out.println("Client Saving");
-				optionsMenuMain("1");
+				menuOptionClient();
 			}
 		}
 		else if(op == 4) {
@@ -150,35 +151,38 @@ public class ManagementSystem {
 			while(id == null) {
 				System.out.println("Enter with code the Client: ");
 				writer = sc.next();
-				id = writer.isBlank() ? null : Long.parseLong(writer);
+				id = writer.isBlank() ? null :  Long.parseLong(writer);
 			}
 			
 			if(id == 0) {
-				optionsMenuMain("1");
+				menuOptionClient();
 			}
 			else {
-				while(client.getNome() == null) {
+				while(client.getNome() == null || client.getNome().isBlank()) {
 					System.out.println("Enter with Name: ");
-					client.setNome(sc.next());
+					sc.nextLine();
+					client.setNome(sc.nextLine());
 				}
 			}
 			
 			if(client.getNome().equals("0")) {
-				optionsMenuMain("1");
+				menuOptionClient();
 			}
 			else {
-				while(client.getCpf() == null) {
+				while(client.getCpf() == null || client.getNome().isBlank()) {
 					System.out.println("Enter with the CPF: ");
-					client.setCpf(sc.next());
+					sc.nextLine();
+					client.setCpf(sc.nextLine());
 				}
 			}
 			
 			if(client.getCpf().equals("0")) {
-				optionsMenuMain("1");
+				menuOptionClient();
 			}
 			else {
 				clientService.update(id, client);
 				System.out.println("Update Client with Success");
+				menuOptionClient();
 			}
 			
 		}
@@ -195,11 +199,11 @@ public class ManagementSystem {
 			}
 			clientService.delete(id);
 			System.out.println("Client Deleted with Success");
-			optionsMenuMain("1");
+			menuOptionClient();
 		}
 		else {
 			System.err.println("Sorry, Invalid Option");
-			optionsMenuMain("1");
+			menuOptionClient();
 		}
 		
 	}
@@ -219,7 +223,7 @@ public class ManagementSystem {
 			System.out.println("\n-------------------------------\n");
 			
 			System.out.print("Choice: ");
-			this.option = sc.nextLine();
+			this.option = sc.next();
 		}
 		optionsMenuProduct(option);
 	}
@@ -234,9 +238,8 @@ public class ManagementSystem {
 			closeSystem();
 		}
 		else if(op == 1) {
-			System.out.println("\n-----------List Products----------\n");
-			System.out.println(mountList(productService.findAll()));
-			optionsMenuMain("2");
+			System.out.println(mountList(productService.findAll(), "Product"));
+			menuOptionProduct();
 		}
 		else if(op == 2) {
 			Long id = null;
@@ -251,11 +254,11 @@ public class ManagementSystem {
 			}
 			
 			System.out.println(productService.findById(id).get());
-			optionsMenuMain("2");
+			menuOptionProduct();
 		}
 		else if(op == 3) {
 			product = new Product();
-			
+			String write = "";
 			System.out.println("\n------Sign up Product Form-------");
 			System.out.println("---Enter 0 to stop the process---\n");
 			
@@ -265,81 +268,86 @@ public class ManagementSystem {
 			}
 		
 			if(product.getDescription().equals("0")) {
-				optionsMenuMain("2");
+				menuOptionProduct();
 			}
 			else {
 				while(product.getPrice() == null) {
 					System.out.println("Enter with the Price Product: ");
-					product.setPrice(Double.parseDouble(sc.next()));
+					write = sc.next();
+					product.setPrice(write.isBlank() ? null : Double.parseDouble(write));
 				}
 			}
 			
 			if(product.getPrice() == 0){
-				optionsMenuMain("2");
+				menuOptionProduct();
 			}
 			else {
 				while(product.getBarCode() == null) {
 					System.out.println("Enter with the Bar Code of the Product: ");
-					product.setBarCode(sc.next());
+					sc.nextLine();
+					product.setBarCode(sc.nextLine());
 				}
 			}
 			
 			if(product.getBarCode().equals("0")) {
-				optionsMenuMain("2");
+				menuOptionProduct();
 			}
 			else {
 				productService.save(product);
 				
 				System.out.println("Product Saving");
-				optionsMenuMain("2");
+				menuOptionProduct();
 			}
 		}
 		else if(op == 4) {
 			product = new Product();
 			Long id = null;
-			String writer = "";
-			
+			String write = "";
 			System.out.println("\n-------Update Client  Form-------");
 			System.out.println("---Enter 0 to stop the process---\n");
 			
 			while(id == null) {
 				System.out.println("Enter with code the Product: ");
-				writer = sc.next();
-				id = writer.isBlank() ? null : Long.parseLong(writer);
+				write = sc.next();
+				id = write.isBlank() ? null : Long.parseLong(write);
 			}
 			
 			if(id == 0) {
-				optionsMenuMain("2");
+				menuOptionProduct();
 			}
 			else {
 				while(product.getDescription() == null) {
 					System.out.println("Enter with Description Product: ");
-					product.setDescription(sc.next());
+					sc.nextLine();
+					product.setDescription(sc.nextLine());
 				}
 			}
 			
 			if(product.getDescription().equals("0")) {
-				optionsMenuMain("2");
+				menuOptionProduct();
 			}
 			else {
+				write = "";
 				while(product.getPrice() == null) {
 					System.out.println("Enter with the Price Product: ");
-					product.setPrice(Double.parseDouble(sc.next()));
+					write = sc.next();
+					product.setPrice(write.isBlank() ? null :  Double.parseDouble(write));
 				}
 			}
 			
 			if(product.getPrice() == 0){
-				optionsMenuMain("2");
+				menuOptionProduct();
 			}
 			else {
 				while(product.getBarCode() == null) {
 					System.out.println("Enter with the Bar Code of the Product: ");
-					product.setBarCode(sc.next());
+					sc.nextLine();
+					product.setBarCode(sc.nextLine());
 				}
 			}
 			
 			if(product.getBarCode().equals("0")) {
-				optionsMenuMain("2");
+				menuOptionProduct();
 			}
 			else {
 				productService.update(id, product);
@@ -360,21 +368,23 @@ public class ManagementSystem {
 			}
 			productService.delete(id);
 			System.out.println("Product Deleted with Success");
-			optionsMenuMain("2");
+			menuOptionProduct();
 		}
 		else {
 			System.err.println("Sorry, Invalid Option");
-			optionsMenuMain("2");
+			menuOptionProduct();
 		}
 		
 	}
 
 	private void closeSystem() {
+		sc.close();
 		System.exit(0);
 	}
 	
-	private String mountList(Collection<?> list) {
+	private String mountList(Collection<?> list, String title) {
 		sb = new StringBuilder();
+		sb.append("\n-----------List "+ title +"----------\n");
 		list.forEach(i -> sb.append(i + "\n"));
 		return sb.toString();
 		
