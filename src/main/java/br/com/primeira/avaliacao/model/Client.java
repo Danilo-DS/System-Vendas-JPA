@@ -14,6 +14,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * @author DS
+ *
+ */
+
 @Entity(name = "TB_CLIENT")
 @NamedQueries({@NamedQuery(name = "Client.findAll", query = "SELECT C FROM TB_CLIENT C ORDER BY C.id")})
 

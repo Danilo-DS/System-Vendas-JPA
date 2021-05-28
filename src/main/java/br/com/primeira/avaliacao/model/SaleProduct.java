@@ -7,8 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+import javax.persistence.Transient;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,27 +18,28 @@ import lombok.NoArgsConstructor;
  *
  */
 
-@Entity(name = "TB_PRODUCT")
-@NamedQueries({@NamedQuery(name = "Product.findAll", query = "SELECT P FROM TB_PRODUCT P ORDER BY P.id")})
-
+@Entity(name = "TB_SALE_PRODUCT")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Product implements Serializable{
+public class SaleProduct implements Serializable {
 
-	private static final long serialVersionUID = -5000046140022957662L;
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name = "COD")
 	private Long id;
 	
-	@Column(name = "DESCRIPTION")
-	private String description;
+	@Transient
+	private Product product;
 	
-	@Column(name = "PRICE")
-	private Double price;
+	@Column(name = "DESCRIPTION_PRODUCT")
+	private String nameProduct;
 	
-	@Column(name = "BARCODE")
-	private String barCode;
+	@Column(name = "QUANTITY_PRODUCT")
+	private Integer quantityProduct;
+	
+	@Column(name = "PRICE_PRODUCT")
+	private Double priceProduct;
 }

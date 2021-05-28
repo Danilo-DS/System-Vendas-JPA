@@ -9,7 +9,10 @@ import br.com.primeira.avaliacao.model.Product;
 import br.com.primeira.avaliacao.service.ClientService;
 import br.com.primeira.avaliacao.service.ProductService;
 
-
+/**
+ * @author DS
+ *
+ */
 public class ManagementSystem {
 	
 	private Scanner sc;

@@ -1,5 +1,9 @@
 package br.com.primeira.avaliacao.util;
 
+/**
+ * @author DS
+ *
+ */
 public class Constantes {
 	
 	/*Name Persistence-Unit*/

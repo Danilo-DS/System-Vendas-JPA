@@ -1,11 +1,13 @@
-package br.com.primeira.avaliacao.repository;
+package br.com.primeira.avaliacao.util;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import br.com.primeira.avaliacao.util.Constantes;
-
+/**
+ * @author DS
+ *
+ */
 public class JpaUtils {
 	
 	private static EntityManagerFactory emf;

@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Optional;
 
+/**
+ * @author DS
+ *
+ */
 public interface GenericRepository<T, ID extends Serializable> {
 
 	public void update(ID id, T entity);
