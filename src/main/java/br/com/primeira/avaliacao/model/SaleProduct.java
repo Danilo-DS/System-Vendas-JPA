@@ -31,9 +31,6 @@ public class SaleProduct implements Serializable {
 	@Column(name = "COD")
 	private Long id;
 	
-	@Transient
-	private Product product;
-	
 	@Column(name = "DESCRIPTION_PRODUCT")
 	private String nameProduct;
 	
@@ -42,4 +39,10 @@ public class SaleProduct implements Serializable {
 	
 	@Column(name = "PRICE_PRODUCT")
 	private Double priceProduct;
+	
+	public SaleProduct(Product product, Integer qtde) {
+		this.nameProduct = product.getDescription();
+		this.quantityProduct = qtde;
+		this.priceProduct = product.getPrice();
+	}
 }
